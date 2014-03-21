@@ -7,16 +7,21 @@ module ShuntingYardAlgorithm
     end
 
     class Number < self
+      REGEXP = /\d+/
+
       def initialize(value)
         @value = value.to_i
       end
 
-      def resolve(output, stack)
-        output.push self
+      # @param [ShuntingYardAlgorithm::Calculator] tokenizer
+      def resolve(tokenizer)
+        tokenizer.to_output self
       end
     end
 
     class Bracket < self
+      REGEXP = /[\(\)]+/
+
       def initialize(value)
         @value = value
       end
@@ -25,14 +30,15 @@ module ShuntingYardAlgorithm
         value == ?(
       end
 
-      def resolve(output, stack)
+      # @param [ShuntingYardAlgorithm::Calculator] tokenizer
+      def resolve(tokenizer)
         if opening?
-          stack.unshift self
+          tokenizer.to_stack self
         else
-          until stack.first.respond_to?(:opening?) && stack.first.opening?
-            output.push stack.shift
+          until tokenizer.last_operation.respond_to?(:opening?) && tokenizer.last_operation.opening?
+            tokenizer.to_output tokenizer.pop_stack
           end
-          stack.shift
+          tokenizer.pop_stack
         end
       end
     end
@@ -40,6 +46,7 @@ module ShuntingYardAlgorithm
     class Operation < self
       include Comparable
 
+      REGEXP = /[\+\-\*\/\^]+/
       PRECEDENCE    = {:+ => 2, :- => 2, :* => 3, :/ => 3, :^ => 4}
       RIGHT_TO_LEFT = [:^]
 
@@ -68,30 +75,36 @@ module ShuntingYardAlgorithm
         end
       end
 
-      # @param [Array] stack
-      # @param [Array] output
-      def resolve(output, stack)
-        return stack.unshift(self) if RIGHT_TO_LEFT.include?(value)
+      def right_to_left?
+        RIGHT_TO_LEFT.include?(value)
+      end
 
-        if PRECEDENCE.keys.include? value
-          case self <=> stack.first
-          when 0, -1
-            output.push stack.shift
-            self.resolve(output, stack)
-          else
-            stack.unshift self
-          end
+      def valid?
+        PRECEDENCE.keys.include? value
+      end
+
+      # @param [ShuntingYardAlgorithm::Calculator] tokenizer
+      def resolve(tokenizer)
+        return tokenizer.to_stack(self) if right_to_left?
+        return unless valid?
+
+        case self <=> tokenizer.last_operation
+        when 0, -1
+          tokenizer.to_output tokenizer.pop_stack
+          resolve(tokenizer)
+        else
+          tokenizer.to_stack self
         end
       end
     end
 
     def self.create(token)
       case token
-      when /\A\d+\Z/
+      when /\A#{Number::REGEXP}\Z/
         Number.new(token)
-      when /\A[\(\)]+\Z/
+      when /\A#{Bracket::REGEXP}\Z/
         Bracket.new(token)
-      when /\A[\+\-\*\/\^]+\Z/
+      when /\A#{Operation::REGEXP}\Z/
         Operation.new(token)
       end
     end

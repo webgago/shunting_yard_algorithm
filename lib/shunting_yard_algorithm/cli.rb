@@ -5,11 +5,8 @@ require 'benchmark'
 module ShuntingYardAlgorithm
   class CLI < Thor
     desc "calculate", "an example task"
-    method_option :eval, aliases: "-e", default: false, desc: "Compile input with Ruby parser (eval)"
     def calculate(input)
-      oop = OOPCalculator.new(input)
-
-      puts oop.calculate options[:eval]
+      puts Calculator.calculate input
     end
   end
 end
