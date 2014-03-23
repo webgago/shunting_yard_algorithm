@@ -2,6 +2,10 @@ module ShuntingYardAlgorithm
   class Token::Bracket < Token
     REGEXP = /[\(\)]+/
 
+    def self.match?(string)
+      string == ?( || string == ?)
+    end
+
     def opening?
       value == ?(
     end

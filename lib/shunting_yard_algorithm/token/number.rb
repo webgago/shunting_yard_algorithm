@@ -3,7 +3,7 @@ module ShuntingYardAlgorithm
     REGEXP = /\d+(\.\d+)?/
 
     def self.match?(string)
-      string =~ /\A#{REGEXP}\Z/
+      string.to_i.to_s == string
     end
 
     def initialize(value)

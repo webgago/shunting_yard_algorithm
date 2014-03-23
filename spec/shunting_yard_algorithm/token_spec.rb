@@ -32,6 +32,10 @@ describe Token do
     it 'returns Space for " "' do
       expect(create(' ')).to be_a Token::Space
     end
+
+    it 'returns Space for "\n"' do
+      expect(create("\n")).to be_a Token::Space
+    end
   end
 
 end

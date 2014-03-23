@@ -3,6 +3,16 @@ require 'spec_helper'
 describe Interpreter do
   let(:tokens) { create_tokens "1 + 2 * 3" }
 
+  describe '#initialize' do
+    it 'accept array of tokens as "tokens" parameter' do
+      expect { described_class.new(tokens).interpret }.to_not raise_error
+    end
+
+    it 'accept tokenizer as "tokens" parameter' do
+      expect { described_class.new(tokens).interpret }.to_not raise_error
+    end
+  end
+
   describe '#interpret' do
     def interpret tokens=tokens
       described_class.new(tokens).interpret
@@ -40,17 +50,8 @@ describe Interpreter do
       end
     end
 
-    it 'evals big input' do
-      pending
-      t100 = generate_tokens 100
-      t10000 = generate_tokens 10000
-
-      Benchmark.benchmark Benchmark::CAPTION, 20 do |x|
-        i100    = x.report('100 operands') { interpret(t100).value }
-        i10000  = x.report('10000 operands') { tokenize(t10000).value }
-
-        expect(i10000.real).to be_within(0.15).of i100.real * 100
-      end
+    it 'evals big input', focus: true do
+      puts Benchmark.realtime { interpret(generate_tokens(1000)).value }
     end
   end
 end

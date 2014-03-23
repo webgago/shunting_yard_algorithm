@@ -8,7 +8,8 @@ module ShuntingYardAlgorithm
       end
 
       def match?(string)
-        string =~ /\A#{regexp}\Z/
+        @_cached_match_regexp ||= /\A#{regexp}\Z/
+        string =~ @_cached_match_regexp
       end
 
       def types

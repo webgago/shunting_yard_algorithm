@@ -3,12 +3,14 @@ require 'shunting_yard_algorithm/token'
 module ShuntingYardAlgorithm
   class Expression
     attr_reader :left, :right, :operation
+    @@_cache = {}
 
     def initialize(left, right, operation)
       @left, @right, @operation = left, right, operation
       validate_operand! @left, 'Left'
       validate_operand! @right, 'Right'
       validate_operation! @operation
+      value
     end
 
     def inspect
@@ -16,7 +18,15 @@ module ShuntingYardAlgorithm
     end
 
     def value
-      @operation.call @left.value, @right.value
+      @value ||= eval
+    end
+
+    def cache_key
+      [@left.value, @operation.method, @right.value].join('').reverse
+    end
+
+    def eval
+      @left.value.send @operation.method, @right.value
     end
 
     def validate_operand!(operand, message)

@@ -5,6 +5,11 @@ module ShuntingYardAlgorithm
     REGEXP        = /[\+\-\*\/\^]+/
     PRECEDENCE    = {:+ => 2, :- => 2, :* => 3, :/ => 3, :^ => 4}
     RIGHT_TO_LEFT = [:^]
+    OPERATIONS    = %w(+ - * / ^)
+
+    def self.match?(string)
+      string.in? OPERATIONS
+    end
 
     def initialize(value)
       @value = value.to_sym

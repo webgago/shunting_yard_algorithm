@@ -3,12 +3,15 @@ require 'shunting_yard_algorithm/expression'
 
 module ShuntingYardAlgorithm
   class Interpreter
+    # @param [ShuntingYardAlgorithm::Tokenizer] tokens
     def initialize(tokens)
       @tokens = tokens.dup
       @tree = []
     end
 
     def interpret
+      raise ArgumentError, 'tokens are empty' if @tokens.empty?
+
       while token = @tokens.shift
         @tree.push token
 
@@ -22,7 +25,17 @@ module ShuntingYardAlgorithm
         end
       end
 
-      Expression.new(*@tree)
+      if @tree.count > 3
+        @tokens = @tree.dup
+        @tree.clear
+        interpret
+      else
+        if @tree.count == 1
+          @tree.first
+        else
+          Expression.new(*@tree)
+        end
+      end
     end
 
   private

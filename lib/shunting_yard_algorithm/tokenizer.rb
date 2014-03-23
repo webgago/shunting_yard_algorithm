@@ -8,6 +8,8 @@ require 'shunting_yard_algorithm/token/operation/plus'
 
 require 'shunting_yard_algorithm/expression'
 
+require 'forwardable'
+
 module ShuntingYardAlgorithm
   class Tokenizer
     class Scanner < StringScanner
@@ -20,17 +22,29 @@ module ShuntingYardAlgorithm
       end
     end
 
+    extend Forwardable
+
+    def_delegator :tokens, :each
+
     def initialize(input)
       @output = []
       @stack  = []
-      @input = Scanner.new(input)
+      @input = input
+      @scanner = Scanner.new(@input)
     end
 
     def tokenize
-      while token = @input.next_token
+      clear
+      while token = @scanner.next_token
         resolve_token(token)
       end
       @output.concat @stack
+    end
+
+    def clear
+      @stack.clear
+      @output.clear
+      @scanner.reset
     end
 
     def resolve_token(chars)
