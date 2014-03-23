@@ -7,8 +7,24 @@
 require 'shunting_yard_algorithm'
 
 module Factories
+  def create_expression(left, right, op)
+    Expression.new(create_token(left), create_token(right), create_token(op))
+  end
+
+  def create_token(token)
+    Token.create(token)
+  end
+
   def create_tokens(tokens)
     ShuntingYardAlgorithm::Tokenizer.new(tokens).tokenize
+  end
+
+  def generate_input size=1
+    ("1 + 2 * " * size) << '3'
+  end
+
+  def generate_tokens size=1
+    create_tokens generate_input size
   end
 end
 

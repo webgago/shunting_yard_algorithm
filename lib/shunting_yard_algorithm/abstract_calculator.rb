@@ -6,9 +6,6 @@ module ShuntingYardAlgorithm
   class AbstractCalculator
     extend Forwardable
 
-    PRECEDENCE    = {:+ => 2, :- => 2, :* => 3, :/ => 3, :^ => 4}
-    RIGHT_TO_LEFT = [:^]
-
     def_delegator :@tokenizer, :tokenize
 
     def initialize(input)
@@ -17,7 +14,7 @@ module ShuntingYardAlgorithm
     end
 
     def calculate
-      compile
+      compile.value
     end
 
     def compile

@@ -2,10 +2,6 @@ require 'spec_helper'
 require 'benchmark'
 
 describe Tokenizer do
-  def generate_input size=1
-    ("1 + 2 * " * size) << '3'
-  end
-
   describe '#tokenize' do
     def tokenize input=generate_input
       described_class.new(input).tokenize
@@ -25,6 +21,7 @@ describe Tokenizer do
     end
 
     it 'parses big input' do
+      pending
       Benchmark.benchmark Benchmark::CAPTION, 20 do |x|
         t100    = x.report('100 operands') { tokenize generate_input 100 }
         t10000  = x.report('10000 operands') { tokenize generate_input 10000 }

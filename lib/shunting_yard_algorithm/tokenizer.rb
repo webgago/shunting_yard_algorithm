@@ -1,11 +1,18 @@
 require 'shunting_yard_algorithm/token'
+require 'shunting_yard_algorithm/token/bracket'
+require 'shunting_yard_algorithm/token/number'
+require 'shunting_yard_algorithm/token/operation'
+require 'shunting_yard_algorithm/token/space'
+
+require 'shunting_yard_algorithm/token/operation/plus'
+
 require 'shunting_yard_algorithm/expression'
 
 module ShuntingYardAlgorithm
   class Tokenizer
     class Scanner < StringScanner
       def token_regexp
-        @regexp ||= Regexp.union(Token::Number::REGEXP, Token::Operation::REGEXP, Token::Bracket::REGEXP, /\s+/)
+        @regexp ||= Regexp.union(*Token.types.map { |type| type.regexp })
       end
 
       def next_token

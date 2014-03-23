@@ -9,10 +9,6 @@ module ShuntingYardAlgorithm
     end
 
     def interpret
-      collapse.value
-    end
-
-    def collapse
       while token = @tokens.shift
         @tree.push token
 

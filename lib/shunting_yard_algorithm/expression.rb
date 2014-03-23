@@ -6,9 +6,9 @@ module ShuntingYardAlgorithm
 
     def initialize(left, right, operation)
       @left, @right, @operation = left, right, operation
-      validate_operand! @left, 'Left operand must be a Token::Number or Expression'
-      validate_operand! @right, 'Right operand must be a Token::Number or Expression'
-      validate_operation! @operation, 'Operation must be a Token::Operation'
+      validate_operand! @left, 'Left'
+      validate_operand! @right, 'Right'
+      validate_operation! @operation
     end
 
     def inspect
@@ -20,11 +20,11 @@ module ShuntingYardAlgorithm
     end
 
     def validate_operand!(operand, message)
-      raise ArgumentError, "#{message}, but #{operand.inspect} given" if !operand.is_a?(Token::Number) && !operand.is_a?(Expression)
+      raise ArgumentError, "#{message} operand must be a Token::Number or Expression, but #{operand.inspect} given" if !operand.is_a?(Token::Number) && !operand.is_a?(Expression)
     end
 
-    def validate_operation!(operation, message)
-      raise ArgumentError, "#{message}, but #{operation.inspect} given" unless operation.is_a? Token::Operation
+    def validate_operation!(operation)
+      raise ArgumentError, "Operation must be a Token::Operation, but #{operation.inspect} given" unless operation.is_a? Token::Operation
     end
   end
 end
