@@ -10,7 +10,7 @@ module ShuntingYardAlgorithm
       @value = value.to_i
     end
 
-    # @param [ShuntingYardAlgorithm::Calculator] tokenizer
+    # @param [ShuntingYardAlgorithm::Tokenizer] tokenizer
     def resolve(tokenizer)
       tokenizer.to_output self
     end

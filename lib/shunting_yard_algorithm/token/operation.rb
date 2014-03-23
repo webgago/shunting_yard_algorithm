@@ -5,7 +5,7 @@ module ShuntingYardAlgorithm
     REGEXP        = /[\+\-\*\/\^]+/
     PRECEDENCE    = {:+ => 2, :- => 2, :* => 3, :/ => 3, :^ => 4}
     RIGHT_TO_LEFT = [:^]
-    OPERATIONS    = %w(+ - * / ^)
+    OPERATIONS = %w(+ - * / ^)
 
     def self.match?(string)
       string.in? OPERATIONS
@@ -44,7 +44,7 @@ module ShuntingYardAlgorithm
       PRECEDENCE.keys.include? value
     end
 
-    # @param [ShuntingYardAlgorithm::Calculator] tokenizer
+    # @param [ShuntingYardAlgorithm::Tokenizer] tokenizer
     def resolve(tokenizer)
       return tokenizer.to_stack(self) if right_to_left?
       return unless valid?

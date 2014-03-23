@@ -1,6 +1,6 @@
 module ShuntingYardAlgorithm
   class Token::Space < Token
-    REGEXP = /\s+/
+    REGEXP = /[[:space:]]+/
 
     def self.match?(string)
       string.blank?

@@ -10,7 +10,7 @@ module ShuntingYardAlgorithm
       value == ?(
     end
 
-    # @param [ShuntingYardAlgorithm::Calculator] tokenizer
+    # @param [ShuntingYardAlgorithm::Tokenizer] tokenizer
     def resolve(tokenizer)
       if opening?
         tokenizer.to_stack self

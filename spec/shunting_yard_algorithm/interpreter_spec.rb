@@ -51,7 +51,9 @@ describe Interpreter do
     end
 
     it 'evals big input', focus: true do
-      puts Benchmark.realtime { interpret(generate_tokens(1000)).value }
+      tokens = nil
+      puts Benchmark.realtime { tokens = generate_tokens(1000) }
+      puts Benchmark.realtime { interpret(tokens).value }
     end
   end
 end
