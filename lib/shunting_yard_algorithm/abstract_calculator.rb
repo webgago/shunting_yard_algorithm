@@ -14,12 +14,28 @@ module ShuntingYardAlgorithm
     end
 
     def calculate
-      compile.value
+      @expression = compile
+      @expression.value
+    end
+
+    def operands_count
+      @tokens.count { |t| t.is_a? Token::Number }
+    end
+
+    def times
+      {tokenize: "#{@time_for_tokenize}ms",
+       interpret: "#{@time_for_interpret}ms"}
     end
 
     def compile
+      @time_for_tokenize = Time.now
       @tokens = tokenize
-      Interpreter.new(@tokens).interpret
+      @time_for_tokenize = Time.now - @time_for_tokenize
+
+      @time_for_interpret = Time.now
+      result = Interpreter.new(@tokens).interpret
+      @time_for_interpret = Time.now - @time_for_interpret
+      result
     end
 
     def interpret
