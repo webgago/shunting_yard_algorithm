@@ -25,16 +25,13 @@ module ShuntingYardAlgorithm
         end
       end
 
-      if @tree.count > 3
-        @tokens = @tree.dup
-        @tree.clear
-        interpret
+      case @tree.count
+      when 3
+        Expression.new(*@tree)
+      when 1
+        @tree.first
       else
-        if @tree.count == 1
-          @tree.first
-        else
-          Expression.new(*@tree)
-        end
+        collapse_tree
       end
     end
 
@@ -50,6 +47,12 @@ module ShuntingYardAlgorithm
 
     def next_token
       @tokens.first
+    end
+
+    def collapse_tree
+      @tokens = @tree.dup
+      @tree.clear
+      interpret
     end
 
     def collapse_expression
