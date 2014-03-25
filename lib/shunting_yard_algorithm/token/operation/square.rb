@@ -1,19 +1,19 @@
 module ShuntingYardAlgorithm
-  class Token::Operation::Plus < Token::Operation
+  class Token::Operation::Square < Token::Operation
     def self.match?(string)
-      string == ?+
+      string == ?^
     end
 
     def precedence
-      2
+      4
     end
 
     def right_to_left?
-      false
+      true
     end
 
     def call(left, right)
-      left + right
+      left ** right
     end
   end
 end

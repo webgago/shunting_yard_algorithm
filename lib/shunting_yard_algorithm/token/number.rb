@@ -2,12 +2,16 @@ module ShuntingYardAlgorithm
   class Token::Number < Token
     REGEXP = /\d+(\.\d+)?/
 
-    def self.match?(string)
-      string.to_i.to_s == string
+    def self.create(token)
+      if type = types.detect { |type| type.match?(token) }
+        type.new(token)
+      else
+        super
+      end
     end
 
-    def initialize(value)
-      @value = value.to_i
+    def self.match?(string)
+      types.any? { |type| type.match? string }
     end
 
     # @param [ShuntingYardAlgorithm::Tokenizer] tokenizer

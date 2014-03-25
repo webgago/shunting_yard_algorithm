@@ -1,11 +1,11 @@
 module ShuntingYardAlgorithm
-  class Token::Operation::Plus < Token::Operation
+  class Token::Operation::Divide < Token::Operation
     def self.match?(string)
-      string == ?+
+      string == ?/
     end
 
     def precedence
-      2
+      3
     end
 
     def right_to_left?
@@ -13,7 +13,7 @@ module ShuntingYardAlgorithm
     end
 
     def call(left, right)
-      left + right
+      left / right
     end
   end
 end

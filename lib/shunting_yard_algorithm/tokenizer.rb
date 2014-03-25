@@ -1,10 +1,16 @@
 require 'shunting_yard_algorithm/token'
 require 'shunting_yard_algorithm/token/bracket'
 require 'shunting_yard_algorithm/token/number'
+require 'shunting_yard_algorithm/token/interger'
+require 'shunting_yard_algorithm/token/float'
 require 'shunting_yard_algorithm/token/operation'
 require 'shunting_yard_algorithm/token/space'
 
 require 'shunting_yard_algorithm/token/operation/plus'
+require 'shunting_yard_algorithm/token/operation/minus'
+require 'shunting_yard_algorithm/token/operation/multiply'
+require 'shunting_yard_algorithm/token/operation/divide'
+require 'shunting_yard_algorithm/token/operation/square'
 
 require 'shunting_yard_algorithm/expression'
 

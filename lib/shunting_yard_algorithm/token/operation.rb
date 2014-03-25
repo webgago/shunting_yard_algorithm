@@ -1,14 +1,18 @@
 module ShuntingYardAlgorithm
   class Token::Operation < Token
     include Comparable
-
     REGEXP        = /[\+\-\*\/\^]+/
-    PRECEDENCE    = {:+ => 2, :- => 2, :* => 3, :/ => 3, :^ => 4}
-    RIGHT_TO_LEFT = [:^]
-    OPERATIONS = %w(+ - * / ^)
+
+    def self.create(token)
+      if type = types.detect { |type| type.match?(token) }
+        type.new(token)
+      else
+        super
+      end
+    end
 
     def self.match?(string)
-      string.in? OPERATIONS
+      types.any? { |type| type.match?(string) }
     end
 
     def initialize(value)
@@ -16,7 +20,15 @@ module ShuntingYardAlgorithm
     end
 
     def precedence
-      PRECEDENCE[value]
+      raise NotImplementedError
+    end
+
+    def right_to_left?
+      raise NotImplementedError
+    end
+
+    def call(left, right)
+      raise NotImplementedError
     end
 
     def <=>(value)
@@ -24,30 +36,9 @@ module ShuntingYardAlgorithm
       precedence <=> value.precedence
     end
 
-    def call(left, right)
-      left.send method, right
-    end
-
-    def method
-      if value == :^
-        :**
-      else
-        value
-      end
-    end
-
-    def right_to_left?
-      RIGHT_TO_LEFT.include?(value)
-    end
-
-    def valid?
-      PRECEDENCE.keys.include? value
-    end
-
     # @param [ShuntingYardAlgorithm::Tokenizer] tokenizer
     def resolve(tokenizer)
       return tokenizer.to_stack(self) if right_to_left?
-      return unless valid?
 
       case self <=> tokenizer.last_operation
       when 0, -1

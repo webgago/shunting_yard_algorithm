@@ -21,12 +21,8 @@ module ShuntingYardAlgorithm
       @value ||= eval
     end
 
-    def cache_key
-      [@left.value, @operation.method, @right.value].join('').reverse
-    end
-
     def eval
-      @left.value.send @operation.method, @right.value
+      @operation.call @left.value, @right.value
     end
 
     def validate_operand!(operand, message)

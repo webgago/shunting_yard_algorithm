@@ -44,13 +44,14 @@ describe Interpreter do
 
     context 'when given bad tokens' do
       it 'raises an ArgumentError' do
-        expect { interpret create_tokens "1 + 2 *" }.to raise_error(ArgumentError, "wrong number of arguments (2 for 3)")
-        expect { interpret create_tokens "1 + 2 * *" }.to raise_error(ArgumentError, "Right operand must be a Token::Number or Expression, but <Operation: *> given")
-        expect { interpret create_tokens "1 + 2 * * 1 1 - 1" }.to raise_error(ArgumentError, "Left operand must be a Token::Number or Expression, but <Operation: +> given")
+        expect { interpret create_tokens "1 + 2 *" }.to raise_error(ArgumentError, "Right operand must be a Token::Number or Expression, but <Plus: +> given")
+        expect { interpret create_tokens "1 + 2 * *" }.to raise_error(ArgumentError, "Right operand must be a Token::Number or Expression, but <Multiply: *> given")
+        expect { interpret create_tokens "1 + 2 * * 1 1 - 1" }.to raise_error(ArgumentError, "Left operand must be a Token::Number or Expression, but <Plus: +> given")
+        expect { interpret create_tokens "1 / 0 * * 1 1 - 1" }.to raise_error(ZeroDivisionError, "divided by 0")
       end
     end
 
-    it 'evals big input', focus: true do
+    it 'evals big input' do
       tokens = nil
       puts Benchmark.realtime { tokens = generate_tokens(1000) }
       puts Benchmark.realtime { interpret(tokens).value }
