@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+`bundle exec shunting_yard_algorithm calculate EXPRESSION HERE`
 
 ## Contributing
 
