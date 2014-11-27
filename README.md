@@ -19,7 +19,9 @@ Or install it yourself as:
 ## Usage
 
 `bundle exec shunting_yard_algorithm calculate "2+2*100/200"` 
+
 or just
+
 `shunting_yard_algorithm calculate "2+2*100/200"` 
 
 ## Contributing
