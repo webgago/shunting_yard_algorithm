@@ -1,6 +1,6 @@
 # ShuntingYardAlgorithm
 
-TODO: Write a gem description
+Shunting yard algorithm implementation http://en.wikipedia.org/wiki/Shunting-yard_algorithm
 
 ## Installation
 
@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-`bundle exec shunting_yard_algorithm calculate EXPRESSION HERE`
+`bundle exec shunting_yard_algorithm calculate 2+2*100/273`
 
 ## Contributing
 
