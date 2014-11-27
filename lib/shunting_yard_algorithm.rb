@@ -1,4 +1,4 @@
-require 'pry-debugger'
+require 'pry-byebug'
 require 'shunting_yard_algorithm/version'
 require 'active_support/all'
 require 'shunting_yard_algorithm/calculator'
